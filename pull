@@ -1,7 +1,0 @@
-#!/bin/bash
-
-folderPath = "diplomacyOnline"
-
-echo "pull files"
-cd ~/${folderPath}
-git pull
