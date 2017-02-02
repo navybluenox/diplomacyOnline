@@ -1,3 +1,25 @@
+//全てのクラスの親クラス
+//どのクラスにも共通しそうな関数を設定している
+class ParentClass{
+    constructor(){
+
+    }
+    static castValue(value,type){
+        switch(type){
+            case "number":
+                return +value;
+            case "boolean":
+                return !!value;
+            case "string":
+                return "" + value;
+            case "date":
+                return new Date(value);
+            default:
+                return value;
+        }
+    }
+}
+
 function inArray(array, value){
     if(!Array.isArray(array))  throw new Error("Error : The 1st argument is not array (base.js inArray)");
     return array.indexOf(value) !== -1;
@@ -38,7 +60,7 @@ function dateToValue(date,outputMode) {
 }
 
 function makeRandomStr(length, option) {
-    //長さ16,英数字小文字大文字
+    //default 長さ16,英数字小文字大文字
     if (length == null) length = 16;
     if (option == null) option = {};
     var _length = length;
