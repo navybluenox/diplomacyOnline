@@ -32,19 +32,19 @@ function getPage(pageName){
         .getContent();
 }
 
-function updateFileToDrive(fileIdStr, content){
-    DriveApp.getFileById(fileIdStr).setContent(content);
+function updateFileToDrive(fileId, content){
+    DriveApp.getFileById(fileId).setContent(content);
 }
 
-function loadFileFromDrive(fileIdStr,charEnc){
+function loadFileFromDrive(fileId,charEnc){
     if(charEnc == null)  charEnc = "UTF-8";
-    return DriveApp.getFileById(fileIdStr).getBlob().getDataAsString(charEnc);
+    return DriveApp.getFileById(fileId).getBlob().getDataAsString(charEnc);
 }
 
-function loadDataFromDrive(fileIdStr, mode) {
+function loadDataFromDrive(fileId, mode) {
     var result;
     if (mode == null) mode = "all";
-    var raw = loadFileFromDrive(fileIdStr);
+    var raw = loadFileFromDrive(fileId);
     var rawData = JSON.parse(raw);
 
     switch (mode) {
@@ -67,9 +67,13 @@ function loadDataFromDrive(fileIdStr, mode) {
     return result;
 }
 
+function loadFusionTable(fileId){
+    
+}
+
 //TODO rewrite
-function updateDatabase(fileIdStr,queues,updatedTime,prevDataInfo){
-    var database = loadDataFromDrive(fileIdStr);
+function updateDatabase(fileId,queues,updatedTime,prevDataInfo){
+    var database = loadDataFromDrive(fileId);
 
     queues.forEach(function(queue){
         var dpIndex;
@@ -127,7 +131,7 @@ function updateDatabase(fileIdStr,queues,updatedTime,prevDataInfo){
     database.updated = new Date(updatedTime);
     database.version = (+database.version) + 1;
 
-    updateFileToDrive(fileIdStr,JSON.stringify(database,null,4));
+    updateFileToDrive(fileId,JSON.stringify(database,null,4));
 }
 
 function handlePropertiesService(value,type,doKind){

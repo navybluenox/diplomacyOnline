@@ -21,7 +21,7 @@ do
             css )
                 newFile=~/${folderPath}/${commitFolder}/${fileKind}_${file/.css/.html}
                 ;;
-            js || pageFunc )
+            js )
                 newFile=~/${folderPath}/${commitFolder}/${fileKind}_${file/.js/.html}
                 ;;
             *)
@@ -36,7 +36,7 @@ do
                 echo -e "\n</style>" >> ${newFile}
                 sed -i -e "1i <style>" ${newFile}
                 ;;
-            js || pageFunc )
+            js )
                 echo -e "\n</script>" >> ${newFile}
                 sed -i -e "1i <script>" ${newFile}
                 ;;

@@ -4,6 +4,24 @@ class ParentClass{
     constructor(){
 
     }
+    setValues(value){
+        $.extend(true,this._data,value);
+        return this;
+    }
+    setValue(keyName,value){
+        var obj = {};
+        keyName.split(".").reduce((prev,curt,index,self)=>{return prev[curt] = (index === self.length-1 ? value : {})},obj);        
+        return this.setValues(obj);
+    }
+    getValues(){
+        let ret = {};
+        $.extend(true,ret,this._data);
+        return ret;
+    }
+    getValue(keyName){
+        var value = this.getValues();
+        return keyName.split(".").reduce((prev,curt,index,self) => {return prev[curt]},value);
+    }
     static castValue(value,type){
         switch(type){
             case "number":
