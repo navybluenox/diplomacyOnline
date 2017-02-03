@@ -1,0 +1,54 @@
+#!/bin/bash
+
+folderPath="diplomacyOnline"
+sourceFolder="src"
+commitFolder="commitFiles"
+
+echo "---commit files---"
+
+echo "---clear files for commit---"
+cd ~/${folderPath}/${commitFolder}
+rm -f *
+
+echo "---copy & edit files---"
+for fileKind in css html js gas pageFunc
+do
+    cd ~/${folderPath}/${sourceFolder}/${fileKind}
+    for file in $(ls)
+    do
+        originalFile=~/${folderPath}/${sourceFolder}/${fileKind}/${file}
+        case ${fileKind} in
+            css )
+                newFile=~/${folderPath}/${commitFolder}/${fileKind}_${file/.css/.html}
+                ;;
+            js || pageFunc )
+                newFile=~/${folderPath}/${commitFolder}/${fileKind}_${file/.js/.html}
+                ;;
+            *)
+                newFile=~/${folderPath}/${commitFolder}/${fileKind}_${file}
+                ;;
+        esac
+
+        cp -f ${originalFile} ${newFile}
+
+        case ${fileKind} in
+            css )
+                echo -e "\n</style>" >> ${newFile}
+                sed -i -e "1i <style>" ${newFile}
+                ;;
+            js || pageFunc )
+                echo -e "\n</script>" >> ${newFile}
+                sed -i -e "1i <script>" ${newFile}
+                ;;
+        esac
+    done
+done
+
+echo "---upload to google drive---"
+cd ~/${folderPath}
+gapps upload
+
+echo "---commit to git hub---"
+git add .
+git commit -m "\"$1\""
+git push
