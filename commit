@@ -11,7 +11,7 @@ cd ~/${folderPath}/${commitFolder}
 rm -f *
 
 echo "---copy & edit files---"
-for fileKind in css html js gas pageFunc
+for fileKind in css html js gas
 do
     cd ~/${folderPath}/${sourceFolder}/${fileKind}
     for file in $(ls)
